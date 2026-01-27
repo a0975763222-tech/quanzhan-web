@@ -1,52 +1,201 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>銓展通訊 - 手機報價單</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銓展通訊 Quanzhan Telecom | 桃園龜山手機報價旗艦店</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 模擬金屬拉絲紋理 */
+        .brushed-metal {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .brushed-metal::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.03) 0px,
+                rgba(255, 255, 255, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+        }
+
+        .titanium-gradient {
+            background: linear-gradient(145deg, #d1d5db, #9ca3af);
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.5), inset -2px -2px 5px rgba(0,0,0,0.2);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+        }
+        .line-btn:hover {
+            animation: pulse-gold 1.5s infinite;
+        }
+    </style>
 </head>
-<body class="bg-white text-gray-900 font-sans">
-    <nav class="border-b sticky top-0 bg-white/80 backdrop-blur-md">
-        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-tighter">銓展通訊 QUANZHAN</h1>
-            <a href="tel:033590858" class="text-sm bg-black text-white px-4 py-2 rounded-full">撥打電話</a>
-        </div>
-    </nav>
+<body class="bg-black text-slate-200 font-sans">
 
-    <main class="max-w-5xl mx-auto px-4 py-12">
-        <div class="text-center mb-16">
-            <h2 class="text-4xl font-bold mb-4">今日手機行情</h2>
-            <p class="text-gray-500">桃園市龜山區中興路402號 | 自動更新不買貴</p>
-        </div>
+    <header class="brushed-metal py-8 px-6 border-b border-slate-700 shadow-2xl">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-black tracking-tighter text-white mb-2">銓展通訊</h1>
+            <p class="text-slate-400 text-sm tracking-widest uppercase mb-6">Quanzhan Telecom • Premium Service</p>
+            
+            <div class="flex flex-wrap justify-center gap-4 text-xs md:text-sm text-slate-300">
+                <span><i class="fa-solid fa-location-dot mr-1"></i> 桃園市龜山區中興路402號</span>
+                <span><i class="fa-solid fa-phone mr-1"></i> 03-3590858</span>
+                <span><i class="fa-solid fa-id-card mr-1"></i> 統編 80089553</span>
+            </div>
+        </div>
+    </header>
 
-        <div id="price-list" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <p class="text-center col-span-2">資料讀取中...</p>
-        </div>
-    </main>
+    <section class="max-w-4xl mx-auto -mt-6 px-4">
+        <div class="titanium-gradient p-1 rounded-full shadow-xl">
+            <div class="bg-slate-800 rounded-full flex items-center px-6 py-3">
+                <i class="fa-solid fa-magnifying-glass text-slate-400 mr-3"></i>
+                <input type="text" id="searchInput" placeholder="搜尋手機型號，如：iPhone 15..." 
+                    class="bg-transparent w-full focus:outline-none text-white placeholder-slate-500">
+            </div>
+        </div>
+    </section>
 
-    <script>
-        // 自動讀取 prices.json 並顯示
-        fetch('prices.json')
-            .then(response => response.json())
-            .then(data => {
-                const list = document.getElementById('price-list');
-                list.innerHTML = data.map(item => `
-                    <div class="border rounded-2xl p-8 hover:shadow-lg transition-shadow">
-                        <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">${item.brand}</span>
-                        <h3 class="text-2xl font-bold mt-2">${item.model}</h3>
-                        <p class="text-gray-500 text-sm">${item.specs}</p>
-                        <div class="mt-6 flex items-baseline gap-2">
-                            <span class="text-3xl font-black text-red-600">$${item.price}</span>
-                            <span class="text-gray-400 line-through text-sm">$${item.msrp}</span>
-                        </div>
-                        <a href="https://line.me/R/ti/p/@您的LINEID" class="block w-full text-center mt-8 bg-green-500 text-white py-3 rounded-xl font-bold">LINE 諮詢</a>
-                    </div>
-                `).join('');
-            })
-            .catch(err => {
-                document.getElementById('price-list').innerHTML = '<p class="text-center col-span-2 text-red-500">尚未產生報價單，請等待 Actions 跑完變綠燈。</p>';
-            });
-    </script>
+    <main class="max-w-6xl mx-auto py-12 px-6">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold border-l-4 border-slate-500 pl-4">當日熱門報價</h2>
+            <span id="updateTime" class="text-xs text-slate-500 italic">正在載入最新資訊...</span>
+        </div>
+
+        <div id="priceContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full text-center py-20">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-slate-600"></i>
+            </div>
+        </div>
+    </main>
+
+    <section class="max-w-6xl mx-auto pb-20 px-6">
+        <h2 class="text-2xl font-bold border-l-4 border-slate-500 pl-4 mb-8">專業通訊服務</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <div onclick="contactLine('門號特惠諮詢')" class="glass-card p-6 rounded-2xl cursor-pointer hover:bg-slate-800 transition-all group">
+                <div class="w-12 h-12 titanium-gradient rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-sim-card text-slate-900 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">門號特惠</h3>
+                <p class="text-slate-400 text-sm">專辦攜碼、續約、新辦，挑戰市場最高折扣。</p>
+            </div>
+
+            <div onclick="contactLine('無卡分期諮詢')" class="glass-card p-6 rounded-2xl cursor-pointer hover:bg-slate-800 transition-all group">
+                <div class="w-12 h-12 titanium-gradient rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-credit-card text-slate-900 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">無卡分期</h3>
+                <p class="text-slate-400 text-sm">免信用卡、免首付，學生/上班族皆可快速過件。</p>
+            </div>
+
+            <div onclick="contactLine('精選配件諮詢')" class="glass-card p-6 rounded-2xl cursor-pointer hover:bg-slate-800 transition-all group">
+                <div class="w-12 h-12 titanium-gradient rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-headphones text-slate-900 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">精選配件</h3>
+                <p class="text-slate-400 text-sm">軍規防摔殼、原廠快充、精選藍牙耳機一應俱全。</p>
+            </div>
+
+            <div onclick="contactLine('二機回收諮詢')" class="glass-card p-6 rounded-2xl cursor-pointer hover:bg-slate-800 transition-all group">
+                <div class="w-12 h-12 titanium-gradient rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i class="fa-solid fa-rotate text-slate-900 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">二機回收</h3>
+                <p class="text-slate-400 text-sm">舊機換新機，高價回購，現場完成專業清除資料。</p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 py-10 px-6 text-center border-t border-slate-800">
+        <p class="text-slate-500 text-sm">© 2026 銓展通訊 版權所有。報價僅供參考，實際價格以門市現場為準。</p>
+    </footer>
+
+    <script>
+        let phoneData = [];
+
+        // 讀取 JSON 資料
+        async function fetchPrices() {
+            try {
+                const response = await fetch('prices.json');
+                phoneData = await response.json();
+                renderData(phoneData);
+                if(phoneData.length > 0) {
+                    document.getElementById('updateTime').innerText = `最後更新：${phoneData[0].updated_at || '今日'}`;
+                }
+            } catch (error) {
+                console.error("資料載入失敗:", error);
+                document.getElementById('priceContainer').innerHTML = `
+                    <div class="col-span-full text-center py-10 text-red-400">
+                        <i class="fa-solid fa-triangle-exclamation mb-2"></i><br>
+                        報價更新中，請稍後再試或直接聯繫門市。
+                    </div>`;
+            }
+        }
+
+        // 渲染畫面
+        function renderData(data) {
+            const container = document.getElementById('priceContainer');
+            container.innerHTML = data.map(item => `
+                <div class="glass-card rounded-2xl overflow-hidden hover:border-slate-500 transition-all">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-slate-700 text-slate-300 text-[10px] px-2 py-1 rounded uppercase tracking-widest">${item.brand}</span>
+                            <span class="text-slate-500 text-xs">${item.source || ''}</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-1">${item.model}</h3>
+                        <p class="text-slate-400 text-sm mb-4">${item.specs}</p>
+                        
+                        <div class="flex items-baseline gap-2 mb-6">
+                            <span class="text-3xl font-black text-white italic">NT$ ${parseInt(item.price).toLocaleString()}</span>
+                            <span class="text-slate-500 text-sm line-through">原價 ${parseInt(item.msrp).toLocaleString()}</span>
+                        </div>
+
+                        <button onclick="contactLine('詢問 ${item.brand} ${item.model}')" 
+                            class="w-full titanium-gradient text-slate-900 font-bold py-3 rounded-xl line-btn transition-all">
+                            立即諮詢價格
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 搜尋功能
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = phoneData.filter(p => 
+                p.model.toLowerCase().includes(term) || 
+                p.brand.toLowerCase().includes(term)
+            );
+            renderData(filtered);
+        });
+
+        // LINE 導向
+        function contactLine(msg) {
+            const lineID = "CZ-TELECOM"; // a11251016
+            const url = `https://line.me/R/ti/p/@your_id?text=${encodeURIComponent('你好，我想諮詢：' + msg)}`;
+            window.open(url, '_blank');
+        }
+
+        fetchPrices();
+    </script>
 </body>
 </html>
