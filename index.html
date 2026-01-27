@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銓展通訊 - 手機報價單</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900 font-sans">
+    <nav class="border-b sticky top-0 bg-white/80 backdrop-blur-md">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-tighter">銓展通訊 QUANZHAN</h1>
+            <a href="tel:033590858" class="text-sm bg-black text-white px-4 py-2 rounded-full">撥打電話</a>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-4 py-12">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">今日手機行情</h2>
+            <p class="text-gray-500">桃園市龜山區中興路402號 | 自動更新不買貴</p>
+        </div>
+
+        <div id="price-list" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <p class="text-center col-span-2">資料讀取中...</p>
+        </div>
+    </main>
+
+    <script>
+        // 自動讀取 prices.json 並顯示
+        fetch('prices.json')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('price-list');
+                list.innerHTML = data.map(item => `
+                    <div class="border rounded-2xl p-8 hover:shadow-lg transition-shadow">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">${item.brand}</span>
+                        <h3 class="text-2xl font-bold mt-2">${item.model}</h3>
+                        <p class="text-gray-500 text-sm">${item.specs}</p>
+                        <div class="mt-6 flex items-baseline gap-2">
+                            <span class="text-3xl font-black text-red-600">$${item.price}</span>
+                            <span class="text-gray-400 line-through text-sm">$${item.msrp}</span>
+                        </div>
+                        <a href="https://line.me/R/ti/p/@您的LINEID" class="block w-full text-center mt-8 bg-green-500 text-white py-3 rounded-xl font-bold">LINE 諮詢</a>
+                    </div>
+                `).join('');
+            })
+            .catch(err => {
+                document.getElementById('price-list').innerHTML = '<p class="text-center col-span-2 text-red-500">尚未產生報價單，請等待 Actions 跑完變綠燈。</p>';
+            });
+    </script>
+</body>
+</html>
