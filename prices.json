@@ -3,16 +3,56 @@
         "brand": "Apple",
         "model": "iPhone 15 Pro",
         "specs": "256G",
-        "msrp": "40400",
         "price": "36500",
-        "updated_at": "2026-01-27 17:10:24"
+        "msrp": "40400"
+    },
+    {
+        "brand": "Apple",
+        "model": "iPad Air M2",
+        "specs": "128G / WiFi",
+        "price": "19900",
+        "msrp": "21900"
+    },
+    {
+        "brand": "Apple",
+        "model": "AirPods Pro 2",
+        "specs": "USB-C 版",
+        "price": "6290",
+        "msrp": "7490"
+    },
+    {
+        "brand": "Apple",
+        "model": "Apple Watch S9",
+        "specs": "45mm / GPS",
+        "price": "12500",
+        "msrp": "13500"
     },
     {
         "brand": "Samsung",
         "model": "S24 Ultra",
         "specs": "512G",
-        "msrp": "47900",
         "price": "41200",
-        "updated_at": "2026-01-27 17:10:24"
+        "msrp": "47900"
+    },
+    {
+        "brand": "OPPO",
+        "model": "Reno11 Pro",
+        "specs": "512G",
+        "price": "14500",
+        "msrp": "17990"
+    },
+    {
+        "brand": "Redmi",
+        "model": "Note 13 Pro",
+        "specs": "256G",
+        "price": "9490",
+        "msrp": "10990"
+    },
+    {
+        "brand": "vivo",
+        "model": "V30 Pro",
+        "specs": "512G",
+        "price": "20900",
+        "msrp": "23900"
     }
 ]
