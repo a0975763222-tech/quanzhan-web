@@ -1,58 +1,25 @@
-[
-    {
-        "brand": "Apple",
-        "model": "iPhone 15 Pro",
-        "specs": "256G",
-        "price": "36500",
-        "msrp": "40400"
-    },
-    {
-        "brand": "Apple",
-        "model": "iPad Air M2",
-        "specs": "128G / WiFi",
-        "price": "19900",
-        "msrp": "21900"
-    },
-    {
-        "brand": "Apple",
-        "model": "AirPods Pro 2",
-        "specs": "USB-C 版",
-        "price": "6290",
-        "msrp": "7490"
-    },
-    {
-        "brand": "Apple",
-        "model": "Apple Watch S9",
-        "specs": "45mm / GPS",
-        "price": "12500",
-        "msrp": "13500"
-    },
-    {
-        "brand": "Samsung",
-        "model": "S24 Ultra",
-        "specs": "512G",
-        "price": "41200",
-        "msrp": "47900"
-    },
-    {
-        "brand": "OPPO",
-        "model": "Reno11 Pro",
-        "specs": "512G",
-        "price": "14500",
-        "msrp": "17990"
-    },
-    {
-        "brand": "Redmi",
-        "model": "Note 13 Pro",
-        "specs": "256G",
-        "price": "9490",
-        "msrp": "10990"
-    },
-    {
-        "brand": "vivo",
-        "model": "V30 Pro",
-        "specs": "512G",
-        "price": "20900",
-        "msrp": "23900"
-    }
-]
+name: 銓展通訊旗艦更新流程
+on:
+  schedule:
+    - cron: '0 0 * * *' # 台北時間早上 08:00
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Run Crawler
+        run: python crawler.py
+      - name: Commit and Push
+        run: |
+          git config --global user.name "Quanzhan-Bot"
+          git config --global user.email "bot@quanzhan-telecom.com"
+          git add prices.json
+          git commit -m "每日報價自動同步: $(date)" || exit 0
+          git push
