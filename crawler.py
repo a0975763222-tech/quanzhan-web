@@ -2,22 +2,22 @@ import json
 from datetime import datetime
 
 def run_crawler():
-    # 強制生成包含手機、平板、配件的完整清單，確保五大品牌與配件全部入庫
-    data = [
-        {"brand": "Apple", "model": "iPhone 15 Pro", "specs": "256G", "price": "36500", "msrp": "40400"},
-        {"brand": "Apple", "model": "iPad Air M2", "specs": "128G / WiFi", "price": "19900", "msrp": "21900"},
-        {"brand": "Apple", "model": "AirPods Pro 2", "specs": "USB-C 版", "price": "6290", "msrp": "7490"},
-        {"brand": "Apple", "model": "Apple Watch S9", "specs": "45mm / GPS", "price": "12500", "msrp": "13500"},
-        {"brand": "Samsung", "model": "S24 Ultra", "specs": "512G", "price": "41200", "msrp": "47900"},
-        {"brand": "OPPO", "model": "Reno11 Pro", "specs": "512G", "price": "14500", "msrp": "17990"},
-        {"brand": "Redmi", "model": "Note 13 Pro", "specs": "256G", "price": "9490", "msrp": "10990"},
-        {"brand": "vivo", "model": "V30 Pro", "specs": "512G", "price": "20900", "msrp": "23900"}
+    products = [
+        {"brand": "Apple", "model": "iPhone 17", "specs": "128G", "msrp": "29900", "price": "27990", "colors": [{"name": "霧藍", "hex": "#7CA1C1"}, {"name": "鼠尾草綠", "hex": "#8E9B8D"}], "stock": "現貨", "category": "手機"},
+        {"brand": "Apple", "model": "iPhone Air", "specs": "128G", "msrp": "35900", "price": "32490", "colors": [{"name": "星光色", "hex": "#F0EAD6"}], "stock": "預購", "category": "手機"},
+        {"brand": "Apple", "model": "iPhone 16e", "specs": "128G", "msrp": "20900", "price": "18790", "colors": [{"name": "黑色", "hex": "#000000"}], "stock": "現貨", "category": "手機"},
+        {"brand": "Apple", "model": "iPad Pro M5", "specs": "11吋/256G", "msrp": "34900", "price": "31200", "colors": [{"name": "太空灰", "hex": "#555555"}], "stock": "現貨", "category": "平板"},
+        {"brand": "Apple", "model": "AirPods Pro 3", "specs": "藍牙耳機", "msrp": "7490", "price": "6690", "colors": [{"name": "白色", "hex": "#FFFFFF"}], "stock": "現貨", "category": "配件"},
+        {"brand": "Samsung", "model": "Galaxy S25 Ultra", "specs": "256G", "msrp": "43900", "price": "28790", "colors": [{"name": "鈦黑", "hex": "#2F2F2F"}], "stock": "現貨", "category": "手機"},
+        {"brand": "Samsung", "model": "Galaxy A56", "specs": "128G", "msrp": "13900", "price": "9590", "colors": [{"name": "薰衣紫", "hex": "#E6E6FA"}], "stock": "現貨", "category": "手機"},
+        {"brand": "Samsung", "model": "Tab S11 Ultra", "specs": "256G", "msrp": "39900", "price": "32990", "colors": [{"name": "鈦灰", "hex": "#708090"}], "stock": "少量", "category": "平板"},
+        {"brand": "vivo", "model": "X Fold5", "specs": "摺疊/1TB", "msrp": "46990", "price": "41990", "colors": [{"name": "絲絨黑", "hex": "#1A1A1A"}], "stock": "現貨", "category": "手機"},
+        {"brand": "Xiaomi", "model": "小米 Pad 7", "specs": "256G", "msrp": "10990", "price": "8490", "colors": [{"name": "薄荷綠", "hex": "#98FB98"}], "stock": "現貨", "category": "平板"},
+        {"brand": "OPPO", "model": "Find X9 Pro", "specs": "512G", "msrp": "36990", "price": "32500", "colors": [{"name": "晨曦金", "hex": "#F5DEB3"}], "stock": "現貨", "category": "手機"},
+        {"brand": "OPPO", "model": "Pad SE", "specs": "128G", "msrp": "6990", "price": "5490", "colors": [{"name": "紫色", "hex": "#E6E6FA"}], "stock": "現貨", "category": "平板"}
     ]
-    
-    # 存檔為網頁需要的 prices.json
-    with open('prices.json', 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
-    print("銓展通訊數據更新成功！")
+    with open("prices.json", "w", encoding="utf-8") as f:
+        json.dump({"last_update": datetime.now().strftime("%Y-%m-%d"), "data": products}, f, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
     run_crawler()
