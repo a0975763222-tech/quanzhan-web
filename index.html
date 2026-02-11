@@ -3,98 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>銓展通訊 | 五大品牌旗艦店</title>
+    
+    <title>銓展通訊 Quanzhan Telecom | 桃園龜山手機報價首選</title>
+    <meta name="description" content="銓展通訊 Since 1989。桃園龜山中興路專業通訊行，提供 iPhone 17 現貨、三星 S25 Ultra、各式平板與配件報價。專業資料無痛轉移、舊機高價折抵。">
+    <meta name="keywords" content="銓展通訊, 桃園龜山買手機, iPhone 17 現貨, 龜山中興路通訊行, 桃園手機報價, 無卡分期, 舊機換新機">
+    <meta name="author" content="銓展通訊">
+
+    <meta property="og:title" content="銓展通訊 | Since 1989 - 龜山專業手機報價">
+    <meta property="og:description" content="2026 全系列手機平板報價更新。專業服務、價格透明，iPhone 17 現貨熱賣中！">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=1000"> <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-username.github.io/your-repo-name/">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #020617; color: #f8fafc; }
+        body { background-color: #121212; color: #f1f5f9; }
         .brushed-metal {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 2px);
-            border-bottom: 1px solid #334155;
+            background: linear-gradient(180deg, #121212 0%, #1a1a1a 100%);
+            position: relative; overflow: hidden;
         }
-        /* 五大品牌專屬色 */
-        .brand-apple { border-top: 4px solid #f5f5f7; }    /* 蘋果銀 */
-        .brand-samsung { border-top: 4px solid #034ea2; }  /* 三星藍 */
-        .brand-oppo { border-top: 4px solid #00ad11; }     /* OPPO綠 */
-        .brand-redmi { border-top: 4px solid #ff4d4d; }    /* 紅米紅 */
-        .brand-vivo { border-top: 4px solid #005aff; }     /* vivo藍 */
-        .brand-default { border-top: 4px solid #64748b; }
-
-        .glass-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1.5rem;
+        .brushed-metal::after {
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px);
+            pointer-events: none; z-index: 0;
         }
+        .logo-relief {
+            font-weight: 900;
+            background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        .dm-card { background: #ffffff; color: #1e293b; border-radius: 1.5rem; }
+        .price-quanzhan { color: #C00000; font-weight: 900; }
+        .price-msrp { color: #94a3b8; text-decoration: line-through; font-size: 0.75rem; }
+        .color-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #e2e8f0; display: inline-block; }
     </style>
 </head>
-<body>
-    <header class="brushed-metal pt-12 pb-16 px-6 text-center">
-        <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tighter text-white">銓展通訊</h1>
-        <div class="max-w-xs mx-auto text-left space-y-2 text-sm text-slate-400">
-            <div class="flex items-center gap-3"><i class="fa-solid fa-location-dot w-4 text-blue-400"></i> 桃園市龜山區中興路402號</div>
-            <div class="flex items-center gap-3"><i class="fa-solid fa-phone w-4 text-blue-400"></i> 03-3590858</div>
-            <div class="flex items-center gap-3"><i class="fa-solid fa-id-card w-4 text-blue-400"></i> 統編 80089553</div>
+<body class="brushed-metal pb-24 md:pb-0">
+
+    <nav class="sticky top-0 z-100 bg-black/80 backdrop-blur-md border-b border-white/10 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-baseline gap-2">
+                <h1 class="logo-relief text-3xl">銓展通訊</h1>
+                <span class="text-[10px] text-slate-500 font-bold tracking-widest">SINCE 1989</span>
+            </div>
+            <a href="tel:033590858" class="bg-blue-600 px-4 py-2 rounded-lg text-white font-bold text-sm"><i class="fa-solid fa-phone mr-2"></i>撥打</a>
         </div>
+    </nav>
+
+    <header class="max-w-7xl mx-auto px-6 py-10 relative z-10">
+        <input type="text" id="searchInput" placeholder="搜尋 iPhone, 三星, 平板..." 
+            class="w-full md:w-96 bg-slate-800 border border-slate-700 rounded-full px-6 py-4 focus:ring-2 focus:ring-blue-500 outline-none">
     </header>
 
-    <main class="max-w-6xl mx-auto -mt-8 px-6 pb-20">
-        <div class="bg-slate-900 border-2 border-slate-700 rounded-2xl flex items-center px-6 py-4 mb-12 shadow-2xl">
-            <i class="fa-solid fa-magnifying-glass text-slate-500 mr-4"></i>
-            <input type="text" id="searchInput" placeholder="搜尋：蘋果, 三星, OPPO, 紅米, vivo..." class="bg-transparent w-full focus:outline-none text-white lg:text-lg">
-        </div>
-
-        <div id="priceContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <main class="max-w-7xl mx-auto px-6 pb-20 relative z-10">
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
     </main>
 
-    <section class="bg-slate-900/50 py-16 px-6 border-t border-slate-800">
-        <div class="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="glass-card p-6 text-center group hover:bg-slate-800 transition-all cursor-pointer">
-                <i class="fa-solid fa-sim-card text-3xl mb-3 text-blue-400"></i><div class="font-bold">門號特惠</div>
-            </div>
-            <div class="glass-card p-6 text-center group hover:bg-slate-800 transition-all cursor-pointer">
-                <i class="fa-solid fa-credit-card text-3xl mb-3 text-emerald-400"></i><div class="font-bold">無卡分期</div>
-            </div>
-            <div class="glass-card p-6 text-center group hover:bg-slate-800 transition-all cursor-pointer">
-                <i class="fa-solid fa-headphones text-3xl mb-3 text-purple-400"></i><div class="font-bold">精選配件</div>
-            </div>
-            <div class="glass-card p-6 text-center group hover:bg-slate-800 transition-all cursor-pointer">
-                <i class="fa-solid fa-rotate text-3xl mb-3 text-amber-400"></i><div class="font-bold">手機回收</div>
-            </div>
-        </div>
-    </section>
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/10 flex justify-around py-3 z-50">
+        <a href="tel:033590858" class="text-center text-white"><i class="fa-solid fa-phone mb-1"></i><p class="text-[10px]">電話</p></a>
+        <a href="https://line.me/R/ti/p/@cz-telecom" class="text-center text-white"><i class="fa-brands fa-line text-green-400 mb-1"></i><p class="text-[10px]">LINE</p></a>
+        <a href="https://maps.app.goo.gl/YourMapLink" class="text-center text-white"><i class="fa-solid fa-map-location-dot text-blue-400 mb-1"></i><p class="text-[10px]">導航</p></a>
+    </div>
 
     <script>
-        const brandStyle = {
-            'Apple': { icon: 'fa-apple', color: 'brand-apple' },
-            'Samsung': { icon: 'fa-mobile-screen', color: 'brand-samsung' },
-            'OPPO': { icon: 'fa-mobile-vibration', color: 'brand-oppo' },
-            'Redmi': { icon: 'fa-robot', color: 'brand-redmi' },
-            'vivo': { icon: 'fa-v', color: 'brand-vivo' }
-        };
-
-        async function load() {
+        let allItems = [];
+        async function fetchPrices() {
             const res = await fetch('prices.json');
-            const data = await res.json();
-            const container = document.getElementById('priceContainer');
-            container.innerHTML = data.map(item => {
-                const style = brandStyle[item.brand] || { icon: 'fa-mobile', color: 'brand-default' };
-                return `
-                    <div class="glass-card p-6 ${style.color} hover:border-slate-500 transition-all">
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="text-[10px] font-black tracking-widest text-slate-500 uppercase">${item.brand}</span>
-                            <i class="fa-solid ${style.icon} text-xl opacity-30"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-1">${item.model}</h3>
-                        <p class="text-slate-500 text-xs mb-6">${item.specs}</p>
-                        <div class="text-2xl font-black text-white italic mb-6">NT$ ${parseInt(item.price).toLocaleString()}</div>
-                        <button class="w-full bg-white text-black font-bold py-3 rounded-xl">LINE 諮詢</button>
-                    </div>
-                `;
-            }).join('');
+            const json = await res.json();
+            allItems = json.data;
+            render(allItems);
         }
-        load();
+        function render(data) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = data.map(p => `
+                <div class="dm-card p-6 flex flex-col h-full">
+                    <span class="text-[10px] font-black text-slate-400 uppercase mb-2">${p.brand}</span>
+                    <h3 class="text-xl font-black mb-1">${p.model}</h3>
+                    <p class="text-slate-500 text-xs mb-4">${p.specs}</p>
+                    <div class="flex gap-2 mb-6">${p.colors.map(c => `<div class="flex items-center gap-1"><span class="color-dot" style="background:${c.hex}"></span><span class="text-[9px] text-slate-400">${c.name}</span></div>`).join('')}</div>
+                    <div class="mt-auto border-t pt-4">
+                        <p class="price-msrp">官方原價 $${parseInt(p.msrp).toLocaleString()}</p>
+                        <p class="text-xs font-black text-[#C00000]">銓展價格 <span class="text-3xl">$${parseInt(p.price).toLocaleString()}</span></p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        document.getElementById('searchInput').addEventListener('input', e => {
+            const v = e.target.value.toLowerCase();
+            render(allItems.filter(i => i.model.toLowerCase().includes(v) || i.brand.toLowerCase().includes(v)));
+        });
+        fetchPrices();
     </script>
 </body>
 </html>
