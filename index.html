@@ -2,98 +2,32 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>銓展通訊 Quanzhan Telecom | 桃園龜山手機報價首選</title>
-    <meta name="description" content="銓展通訊 Since 1989。桃園龜山中興路專業通訊行，提供 iPhone 17 現貨、三星 S25 Ultra、各式平板與配件報價。專業資料無痛轉移、舊機高價折抵。">
-    <meta name="keywords" content="銓展通訊, 桃園龜山買手機, iPhone 17 現貨, 龜山中興路通訊行, 桃園手機報價, 無卡分期, 舊機換新機">
-    <meta name="author" content="銓展通訊">
-
-    <meta property="og:title" content="銓展通訊 | Since 1989 - 龜山專業手機報價">
-    <meta property="og:description" content="2026 全系列手機平板報價更新。專業服務、價格透明，iPhone 17 現貨熱賣中！">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&q=80&w=1000"> <meta property="og:type" content="website">
-    <meta property="og:url" content="https://your-username.github.io/your-repo-name/">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>銓展通訊 | Since 1989 旗艦報價中心</title>
     <style>
-        body { background-color: #121212; color: #f1f5f9; }
-        .brushed-metal {
-            background: linear-gradient(180deg, #121212 0%, #1a1a1a 100%);
-            position: relative; overflow: hidden;
-        }
-        .brushed-metal::after {
-            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 2px);
-            pointer-events: none; z-index: 0;
-        }
-        .logo-relief {
-            font-weight: 900;
-            background: linear-gradient(to bottom, #ffffff 0%, #a1a1a1 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-        .dm-card { background: #ffffff; color: #1e293b; border-radius: 1.5rem; }
-        .price-quanzhan { color: #C00000; font-weight: 900; }
-        .price-msrp { color: #94a3b8; text-decoration: line-through; font-size: 0.75rem; }
-        .color-dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #e2e8f0; display: inline-block; }
+        body { margin: 0; background: #000; color: #fff; font-family: sans-serif; }
+        /* 黑鈦金屬招牌與流光 CSS */
+        .header { width: 100%; height: auto; position: relative; border-bottom: 1px solid #333; }
+        #canvas { width: 100%; height: auto; }
+        /* 動態時鐘樣式 */
+        .clock-box { text-align: center; padding: 10px; color: #888; font-size: 14px; }
+        /* LINE 懸浮按鈕 [黑鈦拉絲質感] */
+        .line-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; 
+                    background: linear-gradient(135deg, #1a1a1a, #333); border-radius: 50%;
+                    box-shadow: 0 0 15px rgba(255,255,255,0.2); animation: breath 2s infinite; }
+        @keyframes breath { 0% { box-shadow: 0 0 5px #fff; } 50% { box-shadow: 0 0 20px #fff; } 100% { box-shadow: 0 0 5px #fff; } }
     </style>
 </head>
-<body class="brushed-metal pb-24 md:pb-0">
-
-    <nav class="sticky top-0 z-100 bg-black/80 backdrop-blur-md border-b border-white/10 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-baseline gap-2">
-                <h1 class="logo-relief text-3xl">銓展通訊</h1>
-                <span class="text-[10px] text-slate-500 font-bold tracking-widest">SINCE 1989</span>
-            </div>
-            <a href="tel:033590858" class="bg-blue-600 px-4 py-2 rounded-lg text-white font-bold text-sm"><i class="fa-solid fa-phone mr-2"></i>撥打</a>
-        </div>
-    </nav>
-
-    <header class="max-w-7xl mx-auto px-6 py-10 relative z-10">
-        <input type="text" id="searchInput" placeholder="搜尋 iPhone, 三星, 平板..." 
-            class="w-full md:w-96 bg-slate-800 border border-slate-700 rounded-full px-6 py-4 focus:ring-2 focus:ring-blue-500 outline-none">
-    </header>
-
-    <main class="max-w-7xl mx-auto px-6 pb-20 relative z-10">
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
-    </main>
-
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-black/95 border-t border-white/10 flex justify-around py-3 z-50">
-        <a href="tel:033590858" class="text-center text-white"><i class="fa-solid fa-phone mb-1"></i><p class="text-[10px]">電話</p></a>
-        <a href="https://line.me/R/ti/p/@cz-telecom" class="text-center text-white"><i class="fa-brands fa-line text-green-400 mb-1"></i><p class="text-[10px]">LINE</p></a>
-        <a href="https://maps.app.goo.gl/YourMapLink" class="text-center text-white"><i class="fa-solid fa-map-location-dot text-blue-400 mb-1"></i><p class="text-[10px]">導航</p></a>
+<body>
+    <div class="header"><canvas id="canvas"></canvas></div>
+    <div class="clock-box" id="update-clock">最後更新：載入中...</div>
+    <div class="container">
+        <input type="text" placeholder="搜尋 iPhone, 三星, 平板...">
+        <div id="product-grid" class="grid"></div>
     </div>
-
-    <script>
-        let allItems = [];
-        async function fetchPrices() {
-            const res = await fetch('prices.json');
-            const json = await res.json();
-            allItems = json.data;
-            render(allItems);
-        }
-        function render(data) {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = data.map(p => `
-                <div class="dm-card p-6 flex flex-col h-full">
-                    <span class="text-[10px] font-black text-slate-400 uppercase mb-2">${p.brand}</span>
-                    <h3 class="text-xl font-black mb-1">${p.model}</h3>
-                    <p class="text-slate-500 text-xs mb-4">${p.specs}</p>
-                    <div class="flex gap-2 mb-6">${p.colors.map(c => `<div class="flex items-center gap-1"><span class="color-dot" style="background:${c.hex}"></span><span class="text-[9px] text-slate-400">${c.name}</span></div>`).join('')}</div>
-                    <div class="mt-auto border-t pt-4">
-                        <p class="price-msrp">官方原價 $${parseInt(p.msrp).toLocaleString()}</p>
-                        <p class="text-xs font-black text-[#C00000]">銓展價格 <span class="text-3xl">$${parseInt(p.price).toLocaleString()}</span></p>
-                    </div>
-                </div>
-            `).join('');
-        }
-        document.getElementById('searchInput').addEventListener('input', e => {
-            const v = e.target.value.toLowerCase();
-            render(allItems.filter(i => i.model.toLowerCase().includes(v) || i.brand.toLowerCase().includes(v)));
-        });
-        fetchPrices();
-    </script>
+    <a href="tel:033590858" class="line-btn"></a>
+    <footer>
+        <p>銓展通訊 | 桃園市龜山區中興路 402 號 | 03-3590858 </p>
+        <p>1989 年創立，提供資料無痛轉移、舊機折抵等 13 條五星服務 [cite: 11-16]</p>
+    </footer>
 </body>
 </html>
