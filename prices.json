@@ -1,1 +1,151 @@
-{}
+{
+    "last_update": "2026-02-12 23:27:14",
+    "products": [
+        {
+            "brand": "iPhone 17 Pro Max (256G)",
+            "model": "iPhone 17 Pro Max (256G)",
+            "specs": "",
+            "msrp": "44900",
+            "price": "41990",
+            "colors": [
+                {
+                    "hex": "#FF6B35",
+                    "name": ""
+                },
+                {
+                    "hex": "#1A2B44",
+                    "name": ""
+                },
+                {
+                    "hex": "#D1D1D1",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        },
+        {
+            "brand": "iPhone 17 (128G)",
+            "model": "iPhone 17 (128G)",
+            "specs": "",
+            "msrp": "29900",
+            "price": "28490",
+            "colors": [
+                {
+                    "hex": "#9EB29D",
+                    "name": ""
+                },
+                {
+                    "hex": "#7CA0BA",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        },
+        {
+            "brand": "Galaxy S25 Ultra (256G)",
+            "model": "Galaxy S25 Ultra (256G)",
+            "specs": "",
+            "msrp": "43900",
+            "price": "38500",
+            "colors": [
+                {
+                    "hex": "#4B5E75",
+                    "name": ""
+                },
+                {
+                    "hex": "#333333",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        },
+        {
+            "brand": "Galaxy Z Fold7 (512G)",
+            "model": "Galaxy Z Fold7 (512G)",
+            "specs": "",
+            "msrp": "56888",
+            "price": "52000",
+            "colors": [
+                {
+                    "hex": "#2C2C2C",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        },
+        {
+            "brand": "OPPO Find X9 Pro",
+            "model": "OPPO Find X9 Pro",
+            "specs": "",
+            "msrp": "34990",
+            "price": "31500",
+            "colors": [
+                {
+                    "hex": "#FFFFFF",
+                    "name": ""
+                },
+                {
+                    "hex": "#000000",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        },
+        {
+            "brand": "小米 15 Pro",
+            "model": "小米 15 Pro",
+            "specs": "",
+            "msrp": "28999",
+            "price": "26500",
+            "colors": [
+                {
+                    "hex": "#C0C0C0",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        },
+        {
+            "brand": "iPad Pro 13 M5 (WiFi)",
+            "model": "iPad Pro 13 M5 (WiFi)",
+            "specs": "",
+            "msrp": "34900",
+            "price": "32900",
+            "colors": [
+                {
+                    "hex": "#333333",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        },
+        {
+            "brand": "Apple Watch S11 (45mm)",
+            "model": "Apple Watch S11 (45mm)",
+            "specs": "",
+            "msrp": "13500",
+            "price": "12500",
+            "colors": [
+                {
+                    "hex": "#000000",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        },
+        {
+            "brand": "AirPods Pro 3",
+            "model": "AirPods Pro 3",
+            "specs": "",
+            "msrp": "7490",
+            "price": "6800",
+            "colors": [
+                {
+                    "hex": "#FFFFFF",
+                    "name": ""
+                }
+            ],
+            "img": "https://via.placeholder.com/300?text=銓展通訊"
+        }
+    ]
+}
