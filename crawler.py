@@ -9,32 +9,34 @@ def run_crawler():
     creds = Credentials.from_service_account_info(creds_json, scopes=scopes)
     client = gspread.authorize(creds)
 
-    # 2. 開啟表格 (請將下方的 ID 換成您表格網址中 /d/ 後面那一串)
-    # 範例：https://docs.google.com/spreadsheets/d/您的ID/edit
-    spreadsheet_id = 1gyMPDvsarOcT-yQj6_2M4_d7YdPnWnMSAmmBtm73IIk 
+    # 2. 開啟表格 (已填入老闆您的專屬 ID)
+    spreadsheet_id = "1gyMPDvsarOcT-yQj6_2M4_d7YdPnWnMSAmmBtm73IIk" 
     sheet = client.open_by_key(spreadsheet_id).sheet1
     all_data = sheet.get_all_records()
 
     # 3. 轉換為網頁需要的格式
     products = []
     for row in all_data:
-        if row.get("顯示狀態") == "顯示":
+        # 只顯示狀態為「顯示」的商品
+        if str(row.get("顯示狀態")).strip() == "顯示":
             # 處理顏色色碼
             color_list = []
             hex_str = str(row.get("官方色碼 (Hex)", ""))
-            for h in hex_str.split(','):
-                color_list.append({"hex": h.strip()})
+            if hex_str:
+                for h in hex_str.split(','):
+                    color_list.append({"hex": h.strip(), "name": ""})
             
             products.append({
                 "brand": row.get("品牌與型號", ""),
                 "model": row.get("品牌與型號", ""),
-                "msrp": row.get("官方售價", "0"),
-                "price": row.get("銓展最終價") or row.get("行情基準", "0"),
+                "specs": row.get("加購備註 (預留 3)", ""), # 這裡放點備註增加質感
+                "msrp": str(row.get("官方售價", "0")),
+                "price": str(row.get("銓展最終價") or row.get("行情基準", "0")),
                 "colors": color_list,
                 "img": row.get("圖片手動校正 (預留1)") or "https://via.placeholder.com/300?text=銓展通訊"
             })
 
-    # 4. 存檔
+    # 4. 存檔到 prices.json
     output = {
         "last_update": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "products": products
