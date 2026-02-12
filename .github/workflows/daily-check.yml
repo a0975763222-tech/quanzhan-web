@@ -1,10 +1,10 @@
 name: 銓展旗艦自動更新引擎
 on:
   schedule:
-    - cron: '0 2 * * *' # 台灣時間每天上午 10 點執行
-  workflow_dispatch: # 讓老闆您可以手動點擊執行
+    - cron: '0 2 * * *'
+  workflow_dispatch:
 permissions:
-  contents: write # 修正權限缺失，允許寫入價格數據
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,12 +14,16 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
+      - name: 安裝 Google 串接工具 # 關鍵：增加這一步
+        run: pip install gspread google-auth
       - name: 執行報價更新
+        env:
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
         run: python crawler.py
       - name: 提交並推送更新
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Quanzhan-Bot"
           git add prices.json
-          git commit -m "自動更新報價及時鐘: $(date)" || exit 0
+          git commit -m "自動更新報價: $(date)" || exit 0
           git push
