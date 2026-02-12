@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>銓展通訊 | Since 1989 旗艦報價</title>
+    <title>銓展通訊 | Since 1989 旗艦報價中心</title>
     <style>
         body { margin: 0; background: #000; color: #fff; font-family: "Noto Sans TC", sans-serif; }
         .header { width: 100%; border-bottom: 1px solid #333; background: #000; }
@@ -11,7 +11,8 @@
         /* LINE 懸浮按鈕：黑鈦拉絲質感 + 呼吸燈 */
         .line-float { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; 
                       background: linear-gradient(145deg, #1a1a1a, #333); border-radius: 50%;
-                      box-shadow: 0 0 10px #444; animation: light-breath 2s infinite; }
+                      box-shadow: 0 0 10px #444; animation: light-breath 2s infinite; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+        .line-float::after { content: 'LINE'; color: #fff; font-weight: bold; font-size: 14px; }
         @keyframes light-breath { 0% { box-shadow: 0 0 5px #fff; } 50% { box-shadow: 0 0 20px #fff; } 100% { box-shadow: 0 0 5px #fff; } }
     </style>
 </head>
@@ -22,8 +23,12 @@
         </div>
     <a href="https://line.me/ti/p/您的ID" class="line-float"></a>
     <footer>
-        <p>銓展通訊 (80089553) | 桃園市龜山區中興路 402 號 | 03-3590858 [cite: 18]</p>
-        <p>✅ 資料無痛轉移 ✅ 舊機折抵 ✅ 原廠保固 [cite: 12-16]</p>
+        <div style="text-align: center; padding: 40px 20px; border-top: 1px solid #333; margin-top: 50px;">
+            <p style="font-size: 18px; letter-spacing: 2px;">銓展通訊 (80089553)</p>
+            <p>桃園市龜山區中興路 402 號 | 03-3590858</p>
+            <p style="color: #888; margin-top: 10px;">✅ 資料無痛轉移 ✅ 舊機折抵 ✅ 原廠保固</p>
+            <p style="font-size: 12px; color: #444; margin-top: 20px;">SINCE 1989 | 專業服務</p>
+        </div>
     </footer>
 </body>
 </html>
