@@ -3,298 +3,432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>銓展通訊 | 旗艦報價中心</title>
+    <title>銓展通訊 | 既然要買，當然要選最優惠的</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* --- 1. 黑鈦旗艦風格設定 --- */
         :root {
             --bg-color: #050505;
-            --card-bg: #111;
-            --text-main: #fff;
-            --text-sub: #888;
-            --gold: #D4AF37;
-            --apple-color: #e3e3e3;
-            --samsung-color: #a4c639; /* Android Green tone or Blue */
+            --bg-gradient: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --gold-primary: #d4af37; /* 銓展金 */
+            --gold-hover: #f1c40f;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --card-border: 1px solid rgba(255, 255, 255, 0.12);
+            --accent-red: #ff3b30;
+            --btn-line: #06c755;
         }
+
+        * { box-sizing: border-box; }
+        
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
             margin: 0;
             padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg-color);
+            background-image: var(--bg-gradient);
+            color: var(--text-primary);
+            padding-top: 80px; /* 預留置頂選單空間 */
+            min-height: 100vh;
         }
 
-        /* --- 1. 頂部導覽列 (解決頂部空曠) --- */
-        header {
-            background: linear-gradient(to bottom, #000, #111);
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 1px solid #333;
+        /* --- 2. 置頂導覽列 --- */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 70px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        .brand-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+
+        .brand-logo {
+            font-size: 1.5rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
         }
-        .brand-subtitle {
-            color: var(--text-sub);
-            font-size: 1rem;
-            letter-spacing: 1px;
+        .brand-logo span { color: var(--gold-primary); }
+
+        .search-container { position: relative; }
+        .search-input {
+            background: rgba(255,255,255,0.1); border: none; padding: 8px 15px 8px 35px;
+            border-radius: 50px; color: #fff; width: 160px; transition: width 0.3s;
         }
-        /* 快速導覽按鈕 */
-        .nav-bar {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
+        .search-input:focus { outline: none; background: rgba(255,255,255,0.2); width: 220px; }
+        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 0.8rem; }
+
+        /* --- 3. Hero & Filter --- */
+        .hero-section { text-align: center; padding: 40px 20px; }
+        .hero-title {
+            font-size: 2.2rem; margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
-        .nav-btn {
-            background: #222;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 8px 16px;
-            border-radius: 20px;
-            text-decoration: none;
+        .hero-subtitle { color: var(--text-secondary); font-size: 1rem; letter-spacing: 1px; }
+
+        .filter-nav {
+            display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+            margin-bottom: 30px; padding: 0 20px;
+        }
+        .filter-btn {
+            background: transparent; border: 1px solid #444; color: #888;
+            padding: 8px 20px; border-radius: 50px; cursor: pointer; transition: 0.3s;
             font-size: 0.9rem;
-            transition: 0.3s;
         }
-        .nav-btn:hover {
-            border-color: var(--gold);
-            color: var(--gold);
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--text-primary); color: #000; border-color: #fff; font-weight: bold;
         }
 
-        /* --- 2. 樓層標題 (解決沒分類) --- */
-        .category-section {
-            max-width: 1200px;
-            margin: 40px auto 10px;
-            padding: 0 20px;
-            border-left: 4px solid var(--gold);
-        }
-        .category-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            padding-left: 15px;
-            text-transform: uppercase;
+        /* --- 4. 產品列表 (外層 Grid) --- */
+        .product-container {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px; max-width: 1200px; margin: 0 auto 80px; padding: 0 20px;
         }
 
-        /* --- 3. 商品卡片區 --- */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
         .product-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid #222;
-            transition: transform 0.2s, border-color 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: var(--card-bg); border: var(--card-border); border-radius: 16px;
+            padding: 15px; position: relative; overflow: hidden; cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex; flex-direction: column;
         }
+
         .product-card:hover {
             transform: translateY(-5px);
-            border-color: var(--gold);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            border-color: var(--gold-primary);
         }
+
+        .badge-hot {
+            position: absolute; top: 10px; left: 10px;
+            background: var(--accent-red); color: white;
+            padding: 2px 8px; font-size: 0.75rem; border-radius: 4px; font-weight: bold; z-index: 2;
+        }
+
+        .card-img-wrap {
+            height: 200px; background: rgba(0,0,0,0.3); border-radius: 8px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-img { max-width: 90%; max-height: 90%; object-fit: contain; }
+
+        .card-brand { font-size: 0.8rem; color: var(--gold-primary); text-transform: uppercase; letter-spacing: 1px; }
+        .card-name { font-size: 1.1rem; font-weight: 600; margin: 5px 0 10px; line-height: 1.3; color: #fff; }
         
-        /* 圖片區域 */
-        .img-container {
-            width: 100%;
-            height: 200px;
-            background: #000;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .card-price-block { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
+        .price-final { font-size: 1.3rem; color: var(--gold-primary); font-weight: 700; }
+        .price-label { font-size: 0.8rem; color: #888; margin-right: 5px; font-weight: normal; }
+
+        /* --- 5. 內層 DM 視窗 (Modal) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000;
+            display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px); opacity: 0; transition: opacity 0.3s;
         }
-        .product-img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        .modal-overlay.open { display: flex; opacity: 1; }
+
+        .modal-box {
+            background: #151515; width: 95%; max-width: 900px; max-height: 90vh;
+            border-radius: 20px; border: 1px solid var(--gold-primary);
+            display: grid; grid-template-columns: 1fr 1.2fr; overflow: hidden;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.15);
+            position: relative;
         }
 
-        .product-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+        .close-modal {
+            position: absolute; top: 15px; right: 20px; font-size: 2rem;
+            color: #fff; cursor: pointer; z-index: 10; transition: 0.3s;
         }
+        .close-modal:hover { color: var(--accent-red); }
+
+        .modal-left {
+            background: #000; padding: 30px; display: flex; align-items: center; justify-content: center;
+        }
+        .modal-left img { max-width: 100%; max-height: 400px; object-fit: contain; }
+
+        .modal-right {
+            padding: 40px; overflow-y: auto; display: flex; flex-direction: column;
+            background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+        }
+
+        .dm-brand { color: var(--gold-primary); letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 5px; }
+        .dm-title { font-size: 2rem; font-weight: 700; margin: 0 0 20px; line-height: 1.2; }
+
+        /* 規格表 */
+        .spec-list {
+            display: grid; gap: 12px; margin-bottom: 30px;
+            background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px;
+        }
+        .spec-row { display: flex; align-items: flex-start; gap: 10px; font-size: 0.95rem; color: #ddd; }
+        .spec-icon { width: 20px; color: #888; text-align: center; margin-top: 3px; }
+
+        .dm-price-area { margin-top: auto; padding-top: 20px; border-top: 1px solid #333; }
+        .dm-old-price { text-decoration: line-through; color: #666; font-size: 1rem; }
+        .dm-new-price { font-size: 2.2rem; color: var(--gold-primary); font-weight: 700; margin-bottom: 15px; }
         
-        /* 規格描述 (解決資料不足) */
-        .product-specs {
-            color: #aaa;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-            line-height: 1.4;
-            min-height: 40px; /* 保持整齊 */
+        .btn-line {
+            display: block; width: 100%; background: var(--btn-line); color: #fff;
+            text-align: center; padding: 15px; border-radius: 50px; text-decoration: none;
+            font-weight: bold; font-size: 1.1rem; transition: 0.3s;
         }
+        .btn-line:hover { background: #05a546; transform: scale(1.02); }
 
-        /* 顏色球 */
-        .color-dots {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        .dot {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 1px solid #555;
-        }
-
-        /* 價格區 */
-        .price-tag {
-            font-size: 1.4rem;
-            color: var(--gold);
-            font-weight: bold;
-            margin-top: auto;
-        }
-        .price-label {
-            font-size: 0.8rem;
-            color: #666;
-            margin-right: 5px;
-        }
-
-        /* 行動呼籲按鈕 (主動功能) */
-        .action-btn {
-            display: block;
-            width: 100%;
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            margin-top: 15px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .action-btn:hover {
-            background: var(--gold);
-            color: #000;
-        }
-
-        /* 頁尾 */
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 0.9rem;
-            border-top: 1px solid #222;
-            margin-top: 50px;
+        /* RWD */
+        @media (max-width: 768px) {
+            .modal-box { grid-template-columns: 1fr; }
+            .modal-left { height: 250px; padding: 20px; }
+            .modal-right { padding: 25px; }
+            .dm-title { font-size: 1.6rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand-title">銓展通訊 | SINCE 1989</div>
-        <div class="brand-subtitle">桃園市龜山區中興路 402 號 | 03-3590858</div>
-        
-        <div id="nav-container" class="nav-bar">
-            </div>
-    </header>
+    <nav class="navbar">
+        <a href="#" class="brand-logo">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            銓展<span>通訊</span>
+        </a>
+        <div class="search-container">
+            <i class="fa-solid fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="搜尋型號..." id="searchInput">
+        </div>
+    </nav>
 
-    <div id="main-content">
-        <div style="text-align:center; padding: 50px; color: #666;">
-            正在載入旗艦報價資料...
+    <div class="hero-section">
+        <h1 class="hero-title">旗艦規格 ‧ 破盤價格</h1>
+        <div class="hero-subtitle">SINCE 1989 | 實體門市在地經營</div>
+    </div>
+
+    <div class="filter-nav">
+        <button class="filter-btn active" onclick="filterData('all')">全部商品</button>
+        <button class="filter-btn" onclick="filterData('Apple')">Apple</button>
+        <button class="filter-btn" onclick="filterData('Samsung')">Samsung</button>
+        <button class="filter-btn" onclick="filterData('OPPO')">OPPO</button>
+        <button class="filter-btn" onclick="filterData('vivo')">vivo</button>
+        <button class="filter-btn" onclick="filterData('Xiaomi')">小米 / 紅米</button>
+        <button class="filter-btn" onclick="filterData('Tablet')">平板專區</button>
+        <button class="filter-btn" onclick="filterData('Wearable')">手錶 / 音訊</button>
+    </div>
+
+    <div class="product-container" id="productGrid"></div>
+
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-box">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div class="modal-left">
+                <img src="" id="dmImg" alt="Product Image">
+            </div>
+            <div class="modal-right">
+                <div class="dm-brand" id="dmBrand">BRAND</div>
+                <h2 class="dm-title" id="dmTitle">Product Name</h2>
+                
+                <div class="spec-list">
+                    <div class="spec-row"><i class="fa-solid fa-mobile spec-icon"></i> <span id="dmScreen">螢幕</span></div>
+                    <div class="spec-row"><i class="fa-solid fa-camera spec-icon"></i> <span id="dmCam">鏡頭</span></div>
+                    <div class="spec-row"><i class="fa-solid fa-battery-full spec-icon"></i> <span id="dmBat">電池</span></div>
+                    <div class="spec-row"><i class="fa-solid fa-microchip spec-icon"></i> <span id="dmCap">容量</span></div>
+                    <div class="spec-row"><i class="fa-solid fa-palette spec-icon"></i> <span id="dmColor">顏色</span></div>
+                </div>
+
+                <div class="dm-price-area">
+                    <div class="dm-old-price" id="dmOldPrice">原價 $0</div>
+                    <div class="dm-new-price" id="dmNewPrice">銓展價 $0</div>
+                    <a href="#" class="btn-line" id="dmLink" target="_blank">
+                        <i class="fa-brands fa-line"></i> 立即加 LINE 詢問
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <footer>
-        <p>資料無痛轉移 | 舊機折抵 | 原廠保固</p>
-        <p>© 2026 銓展通訊 版權所有</p>
-    </footer>
-
     <script>
-        // 預設圖片 (防呆用)
-        const DEFAULT_IMG = "https://placehold.co/400x300/111/D4AF37?text=Quanzhan+Mobile";
+        // --- 完整資料庫 (Source 1-20 全收錄) ---
+        // 請老闆將 'https://placehold.co/...' 替換為真實圖片網址
+        
+        const products = [
+            // --- 1. Apple iPhone (Source 20) ---
+            { id: 'ip1', brand: 'Apple', type: 'Phone', name: 'iPhone 17 Pro Max', price: 41990, old: 44900, tag: 'NEW', spec: { s: '6.9 吋 熱鍛造鋁合金', c: '前2400萬 / 後4800萬三鏡', b: '37小時續航', m: '256G / 512G / 1TB / 2TB', k: '宇宙橙、藏藍、銀' }, img: 'https://placehold.co/600x600/222/fff?text=iPhone+17+Pro+Max' },
+            { id: 'ip2', brand: 'Apple', type: 'Phone', name: 'iPhone 17 Pro', price: 37290, old: 39900, tag: 'HOT', spec: { s: '6.3 吋 熱鍛造鋁合金', c: '前2400萬 / 後4800萬三鏡', b: '31小時續航', m: '256G / 512G / 1TB', k: '宇宙橙、藏藍、銀' }, img: 'https://placehold.co/600x600/222/fff?text=iPhone+17+Pro' },
+            { id: 'ip3', brand: 'Apple', type: 'Phone', name: 'iPhone Air', price: 32490, old: 36900, tag: '超薄', spec: { s: '6.6 吋 5級鈦金屬', c: '前1800萬 / 後4800萬', b: '27小時續航', m: '256G / 512G / 1TB', k: '天藍、金、黑、白' }, img: 'https://placehold.co/600x600/222/fff?text=iPhone+Air' },
+            { id: 'ip4', brand: 'Apple', type: 'Phone', name: 'iPhone 17', price: 27990, old: 29900, tag: '', spec: { s: '6.3 吋 鋁金屬', c: '前1800萬 / 後4800萬雙鏡', b: '30小時續航', m: '8G/12G RAM + 256G/512G', k: '霧藍、紫、綠、黑、白' }, img: 'https://placehold.co/600x600/222/fff?text=iPhone+17' },
+            { id: 'ip5', brand: 'Apple', type: 'Phone', name: 'iPhone 16e', price: 18790, old: 21900, tag: '入門', spec: { s: '6.1 吋 鋁金屬', c: '前1200萬 / 後4800萬', b: '4005 mAh', m: '128G / 256G', k: '黑、白' }, img: 'https://placehold.co/600x600/222/fff?text=iPhone+16e' },
+            { id: 'ip6', brand: 'Apple', type: 'Phone', name: 'iPhone 17e', price: 19990, old: 21900, tag: '動態島', spec: { s: '6.1 吋 鋁金屬', c: '前1800萬 / 後4800萬', b: '3700 mAh', m: '128G / 256G', k: '黑、白' }, img: 'https://placehold.co/600x600/222/fff?text=iPhone+17e' },
 
-        async function loadPrices() {
-            try {
-                // 加上時間戳記避免快取
-                const response = await fetch('prices.json?' + new Date().getTime());
-                const data = await response.json();
-                
-                const container = document.getElementById('main-content');
-                const navContainer = document.getElementById('nav-container');
-                container.innerHTML = '';
-                navContainer.innerHTML = '';
+            // --- 2. Samsung 手機 (Source 6, 7, 9) ---
+            { id: 'sam1', brand: 'Samsung', type: 'Phone', name: 'Galaxy S25 Ultra', price: 28790, old: 43900, tag: '殺很大', spec: { s: '6.9 吋 鈦金屬', c: '2億+5000萬雙長焦', b: '5000 mAh', m: '256G / 512G / 1TB', k: '鈦空藍、鈦銀、灰、黑' }, img: 'https://placehold.co/600x600/222/fff?text=S25+Ultra' },
+            { id: 'sam2', brand: 'Samsung', type: 'Phone', name: 'Galaxy S25 Edge', price: 24490, old: 37900, tag: '', spec: { s: '6.5 吋 拋光鋁', c: '5000萬三鏡', b: '3150 mAh', m: '256G / 512G', k: '鈦輕藍、銀、黑' }, img: 'https://placehold.co/600x600/222/fff?text=S25+Edge' },
+            { id: 'sam3', brand: 'Samsung', type: 'Phone', name: 'Galaxy S25+', price: 22990, old: 34900, tag: '', spec: { s: '6.7 吋 強化玻璃', c: '5000萬+1200萬', b: '4900 mAh', m: '256G / 512G', k: '深海藍、冰藍' }, img: 'https://placehold.co/600x600/222/fff?text=S25+' },
+            { id: 'sam4', brand: 'Samsung', type: 'Phone', name: 'Galaxy S25', price: 18790, old: 27900, tag: '', spec: { s: '6.2 吋 強化玻璃', c: '5000萬+1200萬', b: '4000 mAh', m: '256G / 512G', k: '深海藍、冰藍' }, img: 'https://placehold.co/600x600/222/fff?text=S25' },
+            { id: 'sam5', brand: 'Samsung', type: 'Phone', name: 'Galaxy Z Fold7', price: 45990, old: 62900, tag: '摺疊', spec: { s: '7.6 吋 鈦金屬', c: '2億主鏡+雙前鏡', b: '4400 mAh', m: '512G / 1TB', k: '海影藍、墨夜黑' }, img: 'https://placehold.co/600x600/222/fff?text=Z+Fold7' },
+            { id: 'sam6', brand: 'Samsung', type: 'Phone', name: 'Galaxy Z Flip7', price: 23490, old: 35900, tag: '時尚', spec: { s: '6.7 吋 鋁金屬', c: '5000萬雙鏡', b: '4300 mAh', m: '256G / 512G', k: '海影藍、墨夜黑' }, img: 'https://placehold.co/600x600/222/fff?text=Z+Flip7' },
+            { id: 'sam7', brand: 'Samsung', type: 'Phone', name: 'Galaxy A56', price: 9590, old: 16990, tag: '防水', spec: { s: '6.7 吋 鋁框', c: '5000萬+1200萬', b: '5000 mAh', m: '8G/12G + 256G', k: '夜遊黑、賞櫻粉' }, img: 'https://placehold.co/600x600/222/fff?text=A56' },
+            { id: 'sam8', brand: 'Samsung', type: 'Phone', name: 'Galaxy A36', price: 7990, old: 13990, tag: '', spec: { s: '6.6 吋 玻璃', c: '5000萬+800萬', b: '5000 mAh', m: '128G / 256G', k: '秘境黑、夜光紫' }, img: 'https://placehold.co/600x600/222/fff?text=A36' },
+            { id: 'sam9', brand: 'Samsung', type: 'Phone', name: 'Galaxy A26', price: 6890, old: 11990, tag: '', spec: { s: '6.6 吋 塑膠', c: '5000萬+800萬', b: '5000 mAh', m: '8G+128G', k: '深潛黑、浪花白' }, img: 'https://placehold.co/600x600/222/fff?text=A26' },
+            { id: 'sam10', brand: 'Samsung', type: 'Phone', name: 'Galaxy A17', price: 4990, old: 7490, tag: '入門', spec: { s: '6.7 吋 塑膠', c: '5000萬+500萬', b: '5000 mAh', m: '6G+128G', k: '黑、白、淺藍' }, img: 'https://placehold.co/600x600/222/fff?text=A17' },
+            { id: 'sam11', brand: 'Samsung', type: 'Phone', name: 'Galaxy A07', price: 4890, old: 5990, tag: '', spec: { s: '6.7 吋 塑膠', c: '5000萬雙鏡', b: '5000 mAh', m: '4G+128G', k: '酷潮黑、裸光紫' }, img: 'https://placehold.co/600x600/222/fff?text=A07' },
 
-                // 檢查是否為新版分類格式 (catalog)
-                if (data.catalog) {
-                    // 遍歷每一個品牌 (Apple, Samsung...)
-                    for (const [brand, products] of Object.entries(data.catalog)) {
-                        if (products.length === 0) continue;
+            // --- 3. OPPO 手機 (Source 4) ---
+            { id: 'opp1', brand: 'OPPO', type: 'Phone', name: 'Find X9 Pro', price: 30500, old: 38990, tag: '哈蘇', spec: { s: '6.78 吋 康寧玻璃', c: '5000萬+2億長焦', b: '7500 mAh', m: '16G+512G', k: '霜白、追光紅' }, img: 'https://placehold.co/600x600/222/fff?text=Find+X9+Pro' },
+            { id: 'opp2', brand: 'OPPO', type: 'Phone', name: 'Find X9', price: 21490, old: 28990, tag: '', spec: { s: '6.78 吋 極窄邊框', c: '5000萬三鏡', b: '7025 mAh', m: '12G+256G', k: '霜白、追光紅' }, img: 'https://placehold.co/600x600/222/fff?text=Find+X9' },
+            { id: 'opp3', brand: 'OPPO', type: 'Phone', name: 'Reno15 Pro Max', price: 20600, old: 24990, tag: '2億畫素', spec: { s: '6.8 吋 航太金屬', c: '2億+5000萬', b: '6500 mAh', m: '12G+512G', k: '暮光金、夜漠棕' }, img: 'https://placehold.co/600x600/222/fff?text=Reno15+Pro+Max' },
+            { id: 'opp4', brand: 'OPPO', type: 'Phone', name: 'Reno15 Pro', price: 16800, old: 20990, tag: '', spec: { s: '6.32 吋 冷雕玻璃', c: '2億+5000萬', b: '6200 mAh', m: '12G+256G', k: '極光藍、夜漠棕' }, img: 'https://placehold.co/600x600/222/fff?text=Reno15+Pro' },
+            { id: 'opp5', brand: 'OPPO', type: 'Phone', name: 'Reno15', price: 12800, old: 17990, tag: 'AI翻譯', spec: { s: '6.59 吋 AMOLED', c: '5000萬三鏡', b: '6500 mAh', m: '12G+256G', k: '極光白、蒼穹藍' }, img: 'https://placehold.co/600x600/222/fff?text=Reno15' },
+            { id: 'opp6', brand: 'OPPO', type: 'Phone', name: 'Reno15 F', price: 9480, old: 13990, tag: '', spec: { s: '6.7 吋 強化玻璃', c: '5000萬+800萬', b: '5000 mAh', m: '8G+256G', k: '極光藍、蒼穹藍' }, img: 'https://placehold.co/600x600/222/fff?text=Reno15+F' },
+            { id: 'opp7', brand: 'OPPO', type: 'Phone', name: 'A6s 5G', price: 6200, old: 9490, tag: '大電量', spec: { s: '6.75 吋 塑膠', c: '5000萬+200萬', b: '7000 mAh', m: '8G+256G', k: '奶霜白、可可棕' }, img: 'https://placehold.co/600x600/222/fff?text=A6s+5G' },
+            { id: 'opp8', brand: 'OPPO', type: 'Phone', name: 'A6x 5G', price: 3990, old: 5990, tag: '超俗', spec: { s: '6.75 吋 塑膠', c: '5000萬雙鏡', b: '6500 mAh', m: '4G+128G', k: '芋泥紫、莓果紫' }, img: 'https://placehold.co/600x600/222/fff?text=A6x+5G' },
 
-                        // 1. 建立導覽按鈕
-                        const navBtn = document.createElement('a');
-                        navBtn.href = `#brand-${brand}`;
-                        navBtn.className = 'nav-btn';
-                        navBtn.textContent = brand;
-                        navContainer.appendChild(navBtn);
+            // --- 4. vivo 手機 (Source 5) ---
+            { id: 'viv1', brand: 'vivo', type: 'Phone', name: 'X Fold5', price: 41990, old: 52990, tag: '摺疊', spec: { s: '8.03 吋 碳纖維', c: '5000萬三鏡', b: '6000 mAh', m: '16G+512G', k: '鈦灰、羽白' }, img: 'https://placehold.co/600x600/222/fff?text=X+Fold5' },
+            { id: 'viv2', brand: 'vivo', type: 'Phone', name: 'X300 Pro', price: 31490, old: 37990, tag: '', spec: { s: '6.78 吋 鋁合金', c: '5000萬+2億', b: '6050 mAh', m: '16G+512G', k: '沙漠棕、雪峰白' }, img: 'https://placehold.co/600x600/222/fff?text=X300+Pro' },
+            { id: 'viv3', brand: 'vivo', type: 'Phone', name: 'X300', price: 23490, old: 30990, tag: '', spec: { s: '6.31 吋 鋁合金', c: '2億+5000萬', b: '6040 mAh', m: '12G+256G', k: '晨曦粉、山嵐紫' }, img: 'https://placehold.co/600x600/222/fff?text=X300' },
+            { id: 'viv4', brand: 'vivo', type: 'Phone', name: 'X200 FE', price: 14490, old: 26990, tag: '輕旗艦', spec: { s: '6.31 吋 玻璃', c: '5000萬三鏡', b: '6500 mAh', m: '12G+512G', k: '鈦灰、辰夜黑' }, img: 'https://placehold.co/600x600/222/fff?text=X200+FE' },
+            { id: 'viv5', brand: 'vivo', type: 'Phone', name: 'V60', price: 11490, old: 19990, tag: '蔡司', spec: { s: '6.77 吋 玻璃', c: '5000萬三鏡', b: '6500 mAh', m: '12G+512G', k: '甜莓紫、空靈灰' }, img: 'https://placehold.co/600x600/222/fff?text=V60' },
+            { id: 'viv6', brand: 'vivo', type: 'Phone', name: 'V60 Lite', price: 7490, old: 14990, tag: '', spec: { s: '6.77 吋 塑膠', c: '5000萬+800萬', b: '6500 mAh', m: '12G+256G', k: '元氣粉、曜夜黑' }, img: 'https://placehold.co/600x600/222/fff?text=V60+Lite' },
+            { id: 'viv7', brand: 'vivo', type: 'Phone', name: 'Y39', price: 4990, old: 10990, tag: '續航王', spec: { s: '6.68 吋 塑膠', c: '5000萬+200萬', b: '6500 mAh', m: '8G+256G', k: '山海青、銀河紫' }, img: 'https://placehold.co/600x600/222/fff?text=Y39' },
+            { id: 'viv8', brand: 'vivo', type: 'Phone', name: 'Y29s', price: 4990, old: 9490, tag: '入門', spec: { s: '6.74 吋 塑膠', c: '5000萬主鏡', b: '5500 mAh', m: '8G+256G', k: '白銀、青銅' }, img: 'https://placehold.co/600x600/222/fff?text=Y29s' },
+            { id: 'viv9', brand: 'vivo', type: 'Phone', name: 'Y04', price: 2490, old: 4490, tag: '4G', spec: { s: '6.74 吋 塑膠', c: '1300萬', b: '5500 mAh', m: '4G+128G', k: '黑、白' }, img: 'https://placehold.co/600x600/222/fff?text=Y04' },
 
-                        // 2. 建立樓層標題
-                        const sectionTitle = document.createElement('div');
-                        sectionTitle.className = 'category-section';
-                        sectionTitle.id = `brand-${brand}`;
-                        sectionTitle.innerHTML = `<div class="category-title">${brand} 系列</div>`;
-                        container.appendChild(sectionTitle);
+            // --- 5. Xiaomi / Redmi 手機 (Source 10) ---
+            { id: 'mi1', brand: 'Xiaomi', type: 'Phone', name: 'Xiaomi 15 Ultra', price: 22990, old: 34999, tag: '徠卡', spec: { s: '6.73 吋 2K 龍晶', c: '5000萬四鏡 120倍', b: '6000 mAh', m: '16G+512G / 1TB', k: '徠卡影像' }, img: 'https://placehold.co/600x600/222/fff?text=Xiaomi+15+Ultra' },
+            { id: 'mi2', brand: 'Xiaomi', type: 'Phone', name: 'Xiaomi 15', price: 15290, old: 22999, tag: '', spec: { s: '6.36 吋 平面鋁框', c: '5000萬三鏡', b: '5400 mAh', m: '12G+256G / 512G', k: '徠卡 Summilux' }, img: 'https://placehold.co/600x600/222/fff?text=Xiaomi+15' },
+            { id: 'mi3', brand: 'Xiaomi', type: 'Phone', name: 'Xiaomi 15T Pro', price: 15600, old: 17999, tag: '120W', spec: { s: '6.83 吋 144Hz', c: '5000萬三鏡', b: '5500 mAh', m: '12G+512G / 1TB', k: 'IP68 防水' }, img: 'https://placehold.co/600x600/222/fff?text=Xiaomi+15T+Pro' },
+            { id: 'mi4', brand: 'Xiaomi', type: 'Phone', name: 'Note 15 Pro+', price: 10800, old: 12999, tag: 'CP王', spec: { s: '6.83 吋 1.5K', c: '2.1億超高畫素', b: '6500 mAh', m: '12G+256G / 512G', k: '金剛架構' }, img: 'https://placehold.co/600x600/222/fff?text=Note+15+Pro%2B' },
+            { id: 'mi5', brand: 'Xiaomi', type: 'Phone', name: 'Note 15 Pro', price: 9490, old: 10999, tag: '', spec: { s: '6.83 吋 AMOLED', c: '2億主鏡', b: '6580 mAh', m: '12G+256G / 512G', k: '強化玻璃' }, img: 'https://placehold.co/600x600/222/fff?text=Note+15+Pro' },
+            { id: 'mi6', brand: 'Xiaomi', type: 'Phone', name: 'Redmi 15C', price: 3490, old: 4499, tag: '大聲', spec: { s: '6.74 吋 塑膠', c: '5000萬主鏡', b: '6000 mAh', m: '4G+128G / 8G+256G', k: '200% 音量' }, img: 'https://placehold.co/600x600/222/fff?text=Redmi+15C' },
 
-                        // 3. 建立該品牌的商品網格
-                        const grid = document.createElement('div');
-                        grid.className = 'product-grid';
+            // --- 6. 平板電腦 (Source 2, 8, 19) ---
+            { id: 'tab1', brand: 'Apple', type: 'Tablet', name: 'iPad Pro 13 (M5)', price: 40990, old: 43900, tag: '旗艦', spec: { s: '13 吋 超擬真', c: '專業級雙鏡', b: '長效', m: '12G/16G RAM', k: '銀、太空黑' }, img: 'https://placehold.co/600x600/222/fff?text=iPad+Pro+13' },
+            { id: 'tab2', brand: 'Apple', type: 'Tablet', name: 'iPad Pro 11 (M5)', price: 30990, old: 32900, tag: '', spec: { s: '11 吋 超擬真', c: '專業級雙鏡', b: '長效', m: '12G/16G RAM', k: '銀、太空黑' }, img: 'https://placehold.co/600x600/222/fff?text=iPad+Pro+11' },
+            { id: 'tab3', brand: 'Apple', type: 'Tablet', name: 'iPad Air 13 (M3)', price: 24390, old: 26900, tag: '', spec: { s: '13 吋 大螢幕', c: '前後 1200 萬', b: '長效', m: '8G RAM', k: '藍、紫、星光、灰' }, img: 'https://placehold.co/600x600/222/fff?text=iPad+Air+13' },
+            { id: 'tab4', brand: 'Apple', type: 'Tablet', name: 'iPad Air 11 (M3)', price: 17990, old: 19900, tag: '高CP', spec: { s: '11 吋 全螢幕', c: '前後 1200 萬', b: '長效', m: '8G RAM', k: '藍、紫、星光、灰' }, img: 'https://placehold.co/600x600/222/fff?text=iPad+Air+11' },
+            { id: 'tab5', brand: 'Apple', type: 'Tablet', name: 'iPad mini 7', price: 14890, old: 15900, tag: '小平板', spec: { s: '8.3 吋 小螢幕', c: '前後 1200 萬', b: '長效', m: '8G RAM', k: '藍、紫、星光、灰' }, img: 'https://placehold.co/600x600/222/fff?text=iPad+mini+7' },
+            { id: 'tab6', brand: 'Apple', type: 'Tablet', name: 'iPad 11 (2025)', price: 9990, old: 10900, tag: '學生', spec: { s: '11 吋 標準', c: '前後 1200 萬', b: '長效', m: '6G RAM', k: '黃、藍、粉、銀' }, img: 'https://placehold.co/600x600/222/fff?text=iPad+11' },
+            { id: 'tab7', brand: 'Samsung', type: 'Tablet', name: 'Tab S11 Ultra', price: 32990, old: 39990, tag: 'AI筆記', spec: { s: '14.6 吋 鋁金屬', c: '雙1200萬前鏡', b: '高效', m: '12G/16G RAM', k: '月石灰' }, img: 'https://placehold.co/600x600/222/fff?text=Tab+S11+Ultra' },
+            { id: 'tab8', brand: 'Samsung', type: 'Tablet', name: 'Tab S11 / S11+', price: 19990, old: 23990, tag: '', spec: { s: '12.4 吋 鋁金屬', c: '1300萬', b: '高效', m: '12G RAM', k: '月石灰、鉑金銀' }, img: 'https://placehold.co/600x600/222/fff?text=Tab+S11' },
+            { id: 'tab9', brand: 'Samsung', type: 'Tablet', name: 'Tab S10 Lite', price: 9390, old: 11900, tag: '防水', spec: { s: '10.9 吋 鋁金屬', c: '800萬', b: '高效', m: '6G/8G RAM', k: '灰、銀、紅' }, img: 'https://placehold.co/600x600/222/fff?text=Tab+S10+Lite' },
+            { id: 'tab10', brand: 'Samsung', type: 'Tablet', name: 'Tab A11+', price: 5690, old: 7190, tag: '', spec: { s: '11 吋 塑膠', c: '800萬', b: '高效', m: '8G RAM', k: '星空灰、星際銀' }, img: 'https://placehold.co/600x600/222/fff?text=Tab+A11+' },
+            { id: 'tab11', brand: 'Samsung', type: 'Tablet', name: 'Tab A11', price: 4290, old: 5490, tag: '入門', spec: { s: '11 吋 塑膠', c: '800萬', b: '高效', m: '4G RAM', k: '星空灰、星際銀' }, img: 'https://placehold.co/600x600/222/fff?text=Tab+A11' },
+            { id: 'tab12', brand: 'Xiaomi', type: 'Tablet', name: '小米 Pad 7', price: 8490, old: 9999, tag: '3.2K', spec: { s: '11 吋 3.2K', c: '前後1300萬', b: '類桌機', m: '8G/12G RAM', k: '綠、藍、灰' }, img: 'https://placehold.co/600x600/222/fff?text=Xiaomi+Pad+7' },
+            { id: 'tab13', brand: 'Xiaomi', type: 'Tablet', name: '紅米 Pad 2 Pro', price: 7490, old: 8999, tag: '大螢幕', spec: { s: '12.1 吋', c: '前後800萬', b: '流暢', m: '8G+256G', k: '藍、灰、綠' }, img: 'https://placehold.co/600x600/222/fff?text=Redmi+Pad+2+Pro' },
+            { id: 'tab14', brand: 'Xiaomi', type: 'Tablet', name: '紅米 Pad 2', price: 4590, old: 5999, tag: '金屬', spec: { s: '11 吋', c: '前後800萬', b: '高耐用', m: '8G+128G/256G', k: '灰、綠' }, img: 'https://placehold.co/600x600/222/fff?text=Redmi+Pad+2' },
+            { id: 'tab15', brand: 'Xiaomi', type: 'Tablet', name: '紅米 Pad SE 8.7', price: 2699, old: 3699, tag: '小平板', spec: { s: '8.7 吋', c: '500萬/800萬', b: '輕巧', m: '4G/6G RAM', k: '灰、藍' }, img: 'https://placehold.co/600x600/222/fff?text=Pad+SE+8.7' },
+            { id: 'tab16', brand: 'OPPO', type: 'Tablet', name: 'OPPO Pad SE', price: 4990, old: 5990, tag: '護眼', spec: { s: '11 吋 護眼', c: '500萬/800萬', b: '全能', m: '4G+128G', k: '霧灰綠、太空灰' }, img: 'https://placehold.co/600x600/222/fff?text=OPPO+Pad+SE' },
 
-                        products.forEach(p => {
-                            // 處理顏色HTML
-                            let colorHtml = '';
-                            if (p.colors) {
-                                p.colors.forEach(c => {
-                                    colorHtml += `<div class="dot" style="background-color: ${c.hex};" title="${c.name}"></div>`;
-                                });
-                            }
+            // --- 7. 手錶與耳機 (Source 1, 3) ---
+            { id: 'w1', brand: 'Apple', type: 'Wearable', name: 'Watch S11', price: 12490, old: 12900, tag: '新纖薄', spec: { s: '2000 尼特', c: '水溫感測', b: '睡眠呼吸偵測', m: '鋁金屬', k: '曜石黑、玫瑰金、銀' }, img: 'https://placehold.co/600x600/222/fff?text=Watch+S11' },
+            { id: 'w2', brand: 'Apple', type: 'Wearable', name: 'Watch Ultra 3', price: 25890, old: 26900, tag: '專業', spec: { s: '3000 尼特', c: '鈦金屬', b: '42hr 續航', m: '雙頻 GPS', k: '原色、黑色' }, img: 'https://placehold.co/600x600/222/fff?text=Watch+Ultra+3' },
+            { id: 'w3', brand: 'Apple', type: 'Wearable', name: 'Watch SE 3', price: 6990, old: 7900, tag: '平價', spec: { s: 'Retina 螢幕', c: '跌倒偵測', b: '生命徵象', m: '鋁金屬', k: '午夜、星光、銀' }, img: 'https://placehold.co/600x600/222/fff?text=Watch+SE+3' },
+            { id: 'bt1', brand: 'Apple', type: 'Wearable', name: 'AirPods Pro 3', price: 6690, old: 7490, tag: '降噪', spec: { s: 'IP57 防塵防水', c: '心率感測', b: 'USB-C 磁吸', m: '降噪提升2倍', k: '白色' }, img: 'https://placehold.co/600x600/222/fff?text=AirPods+Pro+3' },
+            { id: 'bt2', brand: 'Apple', type: 'Wearable', name: 'AirPods 4 降噪', price: 5490, old: 5990, tag: '主動降噪', spec: { s: 'H2 晶片', c: '通透模式', b: '無線充電', m: '支援尋找', k: '白色' }, img: 'https://placehold.co/600x600/222/fff?text=AirPods+4+ANC' },
+            { id: 'bt3', brand: 'Apple', type: 'Wearable', name: 'AirPods 4', price: 3990, old: 4490, tag: '', spec: { s: 'H2 晶片', c: '空間音訊', b: 'USB-C', m: 'IP54 防護', k: '白色' }, img: 'https://placehold.co/600x600/222/fff?text=AirPods+4' },
+            { id: 'bt4', brand: 'Apple', type: 'Wearable', name: 'AirPods Max 2', price: 16490, old: 17990, tag: '旗艦耳罩', spec: { s: 'H1 晶片', c: '專業降噪', b: 'USB-C', m: '保真壓縮音訊', k: '五款新色' }, img: 'https://placehold.co/600x600/222/fff?text=AirPods+Max+2' }
+        ];
 
-                            // 處理圖片 (防呆)
-                            let imgUrl = p.img && p.img.startsWith('http') ? p.img : DEFAULT_IMG;
+        // --- 核心程式邏輯 ---
+        const grid = document.getElementById('productGrid');
+        const modal = document.getElementById('productModal');
+        const searchInput = document.getElementById('searchInput');
 
-                            // 產生卡片 HTML
-                            const card = document.createElement('div');
-                            card.className = 'product-card';
-                            card.innerHTML = `
-                                <div>
-                                    <div class="img-container">
-                                        <img src="${imgUrl}" alt="${p.model}" class="product-img" onerror="this.src='${DEFAULT_IMG}'">
-                                    </div>
-                                    <div class="product-name">${p.model}</div>
-                                    <div class="product-specs">${p.specs || '旗艦效能 / 台灣公司貨'}</div>
-                                    <div class="color-dots">${colorHtml}</div>
-                                </div>
-                                <div>
-                                    <div class="price-tag"><span class="price-label">銓展價</span>NT$ ${p.price}</div>
-                                    <a href="https://line.me/ti/p/~您的LineID" target="_blank" class="action-btn">LINE 詢問優惠</a>
-                                </div>
-                            `;
-                            grid.appendChild(card);
-                        });
-                        container.appendChild(grid);
-                    }
-                } else {
-                    // 舊版相容 (以防萬一)
-                    container.innerHTML = '<h2 style="text-align:center">資料結構更新中，請稍後...</h2>';
-                }
+        // 1. 渲染產品卡片
+        function renderGrid(data) {
+            grid.innerHTML = '';
+            if(data.length === 0) {
+                grid.innerHTML = '<div style="color:#888; grid-column:1/-1; text-align:center;">找不到相關商品</div>';
+                return;
+            }
+            data.forEach(p => {
+                const badgeHtml = p.tag ? `<span class="badge-hot">${p.tag}</span>` : '';
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    ${badgeHtml}
+                    <div class="card-img-wrap">
+                        <img src="${p.img}" alt="${p.name}" class="card-img">
+                    </div>
+                    <div class="card-brand">${p.brand}</div>
+                    <div class="card-name">${p.name}</div>
+                    <div class="card-price-block">
+                        <span class="price-label">銓展價</span>
+                        <span class="price-final">$${p.price.toLocaleString()}</span>
+                    </div>
+                `;
+                card.onclick = () => openModal(p);
+                grid.appendChild(card);
+            });
+        }
 
-            } catch (error) {
-                console.error(error);
-                document.getElementById('main-content').innerHTML = '<h2 style="text-align:center; color:red">資料載入失敗，請檢查網路</h2>';
+        // 2. 篩選功能
+        function filterData(filterType) {
+            // 按鈕樣式切換
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 清空搜尋欄
+            searchInput.value = '';
+
+            // 執行篩選
+            if (filterType === 'all') {
+                renderGrid(products);
+            } else if (filterType === 'Tablet') {
+                renderGrid(products.filter(p => p.type === 'Tablet'));
+            } else if (filterType === 'Wearable') {
+                renderGrid(products.filter(p => p.type === 'Wearable'));
+            } else {
+                // 手機類依品牌篩選
+                renderGrid(products.filter(p => p.brand === filterType && p.type === 'Phone'));
             }
         }
 
-        loadPrices();
+        // 3. 搜尋功能
+        searchInput.addEventListener('keyup', (e) => {
+            const keyword = e.target.value.toLowerCase();
+            const filtered = products.filter(p => 
+                p.name.toLowerCase().includes(keyword) || 
+                p.brand.toLowerCase().includes(keyword)
+            );
+            
+            // 移除分類按鈕的 active 狀態，因為現在是搜尋模式
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            
+            renderGrid(filtered);
+        });
+
+        // 4. 開啟 DM Modal
+        function openModal(p) {
+            document.getElementById('dmImg').src = p.img;
+            document.getElementById('dmBrand').innerText = p.brand;
+            document.getElementById('dmTitle').innerText = p.name;
+            document.getElementById('dmScreen').innerText = p.spec.s;
+            document.getElementById('dmCam').innerText = p.spec.c;
+            document.getElementById('dmBat').innerText = p.spec.b;
+            document.getElementById('dmCap').innerText = p.spec.m;
+            document.getElementById('dmColor').innerText = p.spec.k;
+            document.getElementById('dmOldPrice').innerText = '原價 $' + p.old.toLocaleString();
+            document.getElementById('dmNewPrice').innerText = '銓展價 $' + p.price.toLocaleString();
+            
+            // 設定 LINE 按鈕連結
+            const lineMsg = `老闆你好，我想詢問【${p.brand} ${p.name}】，銓展價$${p.price}，請問目前有現貨嗎？`;
+            document.getElementById('dmLink').href = `https://line.me/ti/p/YourLineID?text=${encodeURIComponent(lineMsg)}`;
+            
+            modal.classList.add('open');
+        }
+
+        // 5. 關閉 Modal
+        function closeModal() {
+            modal.classList.remove('open');
+        }
+
+        // 點擊遮罩關閉
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        // 初始化：顯示全部
+        renderGrid(products);
+
     </script>
 </body>
 </html>
