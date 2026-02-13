@@ -2,107 +2,299 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>銓展通訊 | Since 1989 旗艦報價中心</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>銓展通訊 | 旗艦報價中心</title>
     <style>
-        body { margin: 0; background: #000; color: #fff; font-family: "Noto Sans TC", sans-serif; }
-        .header { width: 100%; border-bottom: 1px solid #333; background: #000; }
-        /* 更新時鐘樣式 */
-        #update-time { text-align: center; color: #888; padding: 10px; font-size: 14px; }
-        /* LINE 懸浮按鈕：黑鈦拉絲質感 + 呼吸燈 */
-        .line-float { position: fixed; bottom: 30px; right: 30px; width: 65px; height: 65px; 
-                      background: linear-gradient(145deg, #1a1a1a, #333); border-radius: 50%;
-                      box-shadow: 0 0 10px #444; animation: light-breath 2s infinite; display: flex; align-items: center; justify-content: center; text-decoration: none; }
-        .line-float::after { content: 'LINE'; color: #fff; font-weight: bold; font-size: 14px; }
-        @keyframes light-breath { 0% { box-shadow: 0 0 5px #fff; } 50% { box-shadow: 0 0 20px #fff; } 100% { box-shadow: 0 0 5px #fff; } }
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111;
+            --text-main: #fff;
+            --text-sub: #888;
+            --gold: #D4AF37;
+            --apple-color: #e3e3e3;
+            --samsung-color: #a4c639; /* Android Green tone or Blue */
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- 1. 頂部導覽列 (解決頂部空曠) --- */
+        header {
+            background: linear-gradient(to bottom, #000, #111);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+        .brand-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .brand-subtitle {
+            color: var(--text-sub);
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+        /* 快速導覽按鈕 */
+        .nav-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .nav-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* --- 2. 樓層標題 (解決沒分類) --- */
+        .category-section {
+            max-width: 1200px;
+            margin: 40px auto 10px;
+            padding: 0 20px;
+            border-left: 4px solid var(--gold);
+        }
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding-left: 15px;
+            text-transform: uppercase;
+        }
+
+        /* --- 3. 商品卡片區 --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #222;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+        
+        /* 圖片區域 */
+        .img-container {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        /* 規格描述 (解決資料不足) */
+        .product-specs {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            min-height: 40px; /* 保持整齊 */
+        }
+
+        /* 顏色球 */
+        .color-dots {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid #555;
+        }
+
+        /* 價格區 */
+        .price-tag {
+            font-size: 1.4rem;
+            color: var(--gold);
+            font-weight: bold;
+            margin-top: auto;
+        }
+        .price-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-right: 5px;
+        }
+
+        /* 行動呼籲按鈕 (主動功能) */
+        .action-btn {
+            display: block;
+            width: 100%;
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .action-btn:hover {
+            background: var(--gold);
+            color: #000;
+        }
+
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #222;
+            margin-top: 50px;
+        }
     </style>
 </head>
 <body>
-    <div class="header"><canvas id="quanzhanCanvas"></canvas></div>
-    <div id="update-time">正在載入最新報價時鐘...</div>
-    <div class="container">
+
+    <header>
+        <div class="brand-title">銓展通訊 | SINCE 1989</div>
+        <div class="brand-subtitle">桃園市龜山區中興路 402 號 | 03-3590858</div>
+        
+        <div id="nav-container" class="nav-bar">
+            </div>
+    </header>
+
+    <div id="main-content">
+        <div style="text-align:center; padding: 50px; color: #666;">
+            正在載入旗艦報價資料...
         </div>
-    <a href="https://line.me/ti/p/您的ID" class="line-float"></a>
+    </div>
+
     <footer>
-        <div style="text-align: center; padding: 40px 20px; border-top: 1px solid #333; margin-top: 50px;">
-            <p style="font-size: 18px; letter-spacing: 2px;">銓展通訊 (80089553)</p>
-            <p>桃園市龜山區中興路 402 號 | 03-3590858</p>
-            <p style="color: #888; margin-top: 10px;">✅ 資料無痛轉移 ✅ 舊機折抵 ✅ 原廠保固</p>
-            <p style="font-size: 12px; color: #444; margin-top: 20px;">SINCE 1989 | 專業服務</p>
-        </div>
-    </footer><script>
-    // 1. 黑鈦流光招牌繪圖 (Canvas)
-    const canvas = document.getElementById('quanzhanCanvas');
-    const ctx = canvas.getContext('2d');
-    function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerWidth * (21/100); // 保持旗艦比例
-    }
-    window.onresize = resize; resize();
+        <p>資料無痛轉移 | 舊機折抵 | 原廠保固</p>
+        <p>© 2026 銓展通訊 版權所有</p>
+    </footer>
 
-    let gradientPos = -canvas.width;
-    function draw() {
-        ctx.fillStyle = '#000';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // 銀白流光效果
-        let grad = ctx.createLinearGradient(gradientPos, 0, gradientPos + 400, 0);
-        grad.addColorStop(0, 'transparent');
-        grad.addColorStop(0.5, 'rgba(255,255,255,0.15)');
-        grad.addColorStop(1, 'transparent');
-        
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // 招牌文字：地址與店名
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 24px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('銓展通訊 | SINCE 1989', canvas.width/2, canvas.height/2);
-        ctx.font = '14px sans-serif';
-        ctx.fillText('桃園市龜山區中興路 402 號', canvas.width/2, canvas.height/2 + 30);
+    <script>
+        // 預設圖片 (防呆用)
+        const DEFAULT_IMG = "https://placehold.co/400x300/111/D4AF37?text=Quanzhan+Mobile";
 
-        gradientPos += 5;
-        if (gradientPos > canvas.width + 500) gradientPos = -500;
-        requestAnimationFrame(draw);
-    }
-    draw();
-
-    // 2. 抓取價格數據並渲染頁面
-    fetch('prices.json')
-        .then(response => response.json())
-        .then(data => {
-            if (data.last_update) {
-                document.getElementById('update-time').innerText = '最後更新：' + data.last_update;
-            }
-            const grid = document.querySelector('.container');
-            grid.innerHTML = ''; // 清除載入文字
-            
-            data.products.forEach(p => {
-                const card = document.createElement('div');
-                card.style = "border:1px solid #222; padding:20px; border-radius:10px; margin:10px; display:inline-block; width:280px; vertical-align:top; background:#0a0a0a;";
+        async function loadPrices() {
+            try {
+                // 加上時間戳記避免快取
+                const response = await fetch('prices.json?' + new Date().getTime());
+                const data = await response.json();
                 
-                // 處理零色差色塊
-                let colorHtml = '';
-                if(p.colors) {
-                    p.colors.forEach(c => {
-                        colorHtml += `<span style="display:inline-block; width:15px; height:15px; border-radius:50%; background:${c.hex}; margin-right:5px; border:1px solid #444;" title="${c.name}"></span>`;
-                    });
+                const container = document.getElementById('main-content');
+                const navContainer = document.getElementById('nav-container');
+                container.innerHTML = '';
+                navContainer.innerHTML = '';
+
+                // 檢查是否為新版分類格式 (catalog)
+                if (data.catalog) {
+                    // 遍歷每一個品牌 (Apple, Samsung...)
+                    for (const [brand, products] of Object.entries(data.catalog)) {
+                        if (products.length === 0) continue;
+
+                        // 1. 建立導覽按鈕
+                        const navBtn = document.createElement('a');
+                        navBtn.href = `#brand-${brand}`;
+                        navBtn.className = 'nav-btn';
+                        navBtn.textContent = brand;
+                        navContainer.appendChild(navBtn);
+
+                        // 2. 建立樓層標題
+                        const sectionTitle = document.createElement('div');
+                        sectionTitle.className = 'category-section';
+                        sectionTitle.id = `brand-${brand}`;
+                        sectionTitle.innerHTML = `<div class="category-title">${brand} 系列</div>`;
+                        container.appendChild(sectionTitle);
+
+                        // 3. 建立該品牌的商品網格
+                        const grid = document.createElement('div');
+                        grid.className = 'product-grid';
+
+                        products.forEach(p => {
+                            // 處理顏色HTML
+                            let colorHtml = '';
+                            if (p.colors) {
+                                p.colors.forEach(c => {
+                                    colorHtml += `<div class="dot" style="background-color: ${c.hex};" title="${c.name}"></div>`;
+                                });
+                            }
+
+                            // 處理圖片 (防呆)
+                            let imgUrl = p.img && p.img.startsWith('http') ? p.img : DEFAULT_IMG;
+
+                            // 產生卡片 HTML
+                            const card = document.createElement('div');
+                            card.className = 'product-card';
+                            card.innerHTML = `
+                                <div>
+                                    <div class="img-container">
+                                        <img src="${imgUrl}" alt="${p.model}" class="product-img" onerror="this.src='${DEFAULT_IMG}'">
+                                    </div>
+                                    <div class="product-name">${p.model}</div>
+                                    <div class="product-specs">${p.specs || '旗艦效能 / 台灣公司貨'}</div>
+                                    <div class="color-dots">${colorHtml}</div>
+                                </div>
+                                <div>
+                                    <div class="price-tag"><span class="price-label">銓展價</span>NT$ ${p.price}</div>
+                                    <a href="https://line.me/ti/p/~您的LineID" target="_blank" class="action-btn">LINE 詢問優惠</a>
+                                </div>
+                            `;
+                            grid.appendChild(card);
+                        });
+                        container.appendChild(grid);
+                    }
+                } else {
+                    // 舊版相容 (以防萬一)
+                    container.innerHTML = '<h2 style="text-align:center">資料結構更新中，請稍後...</h2>';
                 }
 
-                card.innerHTML = `
-                    <img src="${p.img}" style="width:100%; border-radius:5px;">
-                    <h3 style="margin:15px 0 5px 0; font-size:18px;">${p.model}</h3>
-                    <p style="color:#666; font-size:12px;">${p.specs}</p>
-                    <div style="margin:10px 0;">${colorHtml}</div>
-                    <p style="text-decoration:line-through; color:#444; font-size:12px;">原價 $${p.msrp}</p>
-                    <p style="color:#fff; font-size:20px; font-weight:bold; color:#ffcc00;">銓展價 $${p.price}</p>
-                `;
-                grid.appendChild(card);
-            });
-        })
-        .catch(err => {
-            document.getElementById('update-time').innerText = '報價單同步中，請稍候再重新整理';
-        });
-</script>
+            } catch (error) {
+                console.error(error);
+                document.getElementById('main-content').innerHTML = '<h2 style="text-align:center; color:red">資料載入失敗，請檢查網路</h2>';
+            }
+        }
+
+        loadPrices();
+    </script>
 </body>
 </html>
